@@ -43,7 +43,7 @@ const captainSchema = new Schema({
     status: {
         type: String,
         enum: ['active', 'inactive'],
-        default: ['inactive']
+        default: 'inactive'
     },
 
     vehicle: {
