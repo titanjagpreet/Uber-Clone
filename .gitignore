@@ -1,2 +1,35 @@
-.env
+# Node modules
 node_modules/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# npm package-lock file (optional, if you want to ignore it)
+# package-lock.json
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Build outputs (for front-end or back-end projects)
+dist/
+build/
+
+# Test coverage
+coverage/
+
+# Dependency directories (for other package managers)
+bower_components/
+
+# JetBrains IDEs
+.idea/
+
+# VSCode settings (if you don't want to include personal editor settings)
+.vscode/
+
+# Optional: Ignore .env files if sensitive
+.env.local
+.env.production
