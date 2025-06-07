@@ -33,8 +33,8 @@ router.post('/login', [
     captainController.loginCaptain
 )
 
-router.get('/profile', authCaptain, userController.getCaptainProfile);
+router.get('/profile', authCaptain, captainController.getCaptainProfile);
 
-router.get('/logout', authCaptain, userController.logoutCaptain);
+router.get('/logout', authCaptain, captainController.logoutCaptain);
 
 module.exports = router;
