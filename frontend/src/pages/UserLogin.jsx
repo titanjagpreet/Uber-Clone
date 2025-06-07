@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserDataContext } from '../context/UserContext';
+import axios from 'axios'
 
 export default function UserLogin() {
 
@@ -7,13 +9,35 @@ export default function UserLogin() {
   const [password, setPassword] = useState('');
   const [userData, setUserData] = useState({});
 
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserDataContext);
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
+    const userData = {
       email: email,
       password: password
-    });
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
+
+      if (response.status === 200) {
+        const data = response.data.data;
+        setUser(data.user);
+        localStorage.setItem('token', data.token);
+        navigate('/home');
+      }
+
+    } catch (error) {
+
+      if (axios.isAxiosError(error)) {
+        console.error('Signup error:', error.response?.data); // 🔍 See backend response
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
 
     setEmail('');
     setPassword('');
@@ -26,7 +50,7 @@ export default function UserLogin() {
 
         <img className='w-16 !mb-8' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
 
-        <form action="" onSubmit={(e) => {submitHandler(e)}}>
+        <form action="" onSubmit={(e) => { submitHandler(e) }}>
 
           <h3 className='text-lg font-medium !mb-2'>
             What's your email?
@@ -64,7 +88,7 @@ export default function UserLogin() {
 
       <div>
         <Link to='/captain-login'
-         className='bg-[#10b461] flex items-center justify-center text-white font-semibold !mb-5 !mt-4 rounded !px-4 !py-2 w-full cursor-pointer'>
+          className='bg-[#10b461] flex items-center justify-center text-white font-semibold !mb-5 !mt-4 rounded !px-4 !py-2 w-full cursor-pointer'>
           Sign in as Captain
         </Link>
       </div>
