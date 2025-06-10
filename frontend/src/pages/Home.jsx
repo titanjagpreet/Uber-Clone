@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
+import LocationSearchPanel from '../components/LocationSearchPanel';
 
 export default function Home() {
 
@@ -103,10 +104,11 @@ export default function Home() {
 
           <div 
             ref={panelRef} 
-            className={`${panelOpen ? 'bg-red-500 !p-5' : 'bg-transparent !p-0'} overflow-hidden transition-all duration-300`}
+            className={`${panelOpen ? ' !p-5' : 'bg-transparent !p-0'} overflow-hidden transition-all duration-300`}
             style={{ height: '0px' }}
           >
             {/* Panel content can go here */}
+            <LocationSearchPanel/>
           </div>
         </div>
       </div>
