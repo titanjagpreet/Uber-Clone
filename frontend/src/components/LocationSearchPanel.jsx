@@ -1,62 +1,44 @@
 import React from 'react'
 
-export default function LocationSearchPanel() {
+export default function LocationSearchPanel(props) {
 
-  return (
-    <>
-    <div>
-        {/* This is just a sample data */}
+    console.log(props);
 
-        <div className='flex items-center justify-start gap-4 !my-2'>
+    // Sample array for locations
+    const locations = [
+        "Chroma, Piplani, Bhopal",
+        "24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal",
+        "Queen Mary School, Ayodhya Bypass, Bhopal",
+        "Minal Gate 3, Ayodhya Bypass, Bhopal"
+    ]
 
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
+    return (
+        <>
+            <div>
+                {/* This is just a sample data */}
 
-        <div className='flex items-center justify-start gap-4 !my-2'>
+                {
+                    locations.map(function (elem, idx) {
+                        return <div key={idx}
+                        
+                        onClick={() => {
+                            props.setVehiclePanel(true)
+                            props.setPanelOpen(false)
+                        }}
 
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
+                            className='flex items-center justify-start gap-4 border border-gray-100 active:border-black !p-2 rounded-xl !my-2'>
+                            <div className='bg-[#eee] flex items-center justify-center h-10 aspect-square rounded-full flex-shrink-0'>
+                                <i className="ri-map-pin-fill"></i>
+                            </div>
+                            <h4 className='font-medium'>
+                                {elem}
+                            </h4>
+                        </div>
+                    })
+                }
 
-        <div className='flex items-center justify-start gap-4 !my-2'>
-
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
-
-        <div className='flex items-center justify-start gap-4 !my-2'>
-
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
-
-        <div className='flex items-center justify-start gap-4 !my-2'>
-
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
-
-        <div className='flex items-center justify-start gap-4 !my-2'>
-
-            <h2 className='bg-[#eee] flex items-center  justify-center h-10 w-15 rounded-full '><i className="ri-map-pin-fill"></i></h2>
-            <h4 className='font-medium'>
-                24B, Near Kapoor's Cafe, Sheryians Coding School, Bhopal
-            </h4>
-        </div>
-
-    </div>
-    </>
-  )
+            </div>
+        </>
+    )
 }
 
