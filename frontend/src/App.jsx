@@ -10,6 +10,7 @@ import UserProtectWrapper from './pages/UserProtectWrapper.jsx';
 import CaptainProtectWrapper from './pages/CaptainProtectWrapper.jsx';
 import UserLogout from './pages/UserLogout.jsx';
 import CaptainHome from './pages/CaptainHome.jsx';
+import Riding from './pages/Riding.jsx';
 
 export default function App() {
 
@@ -21,6 +22,7 @@ export default function App() {
         <Route path='/login' element={<UserLogin />} />
         <Route path='/captain-signup' element={<CaptainSignup />} />
         <Route path='/captain-login' element={<CaptainLogin />} />
+        <Route path='/riding' element={ <Riding/> } />
 
         <Route path='/home' element={
           <UserProtectWrapper>
