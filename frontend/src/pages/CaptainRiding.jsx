@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import FinishRide from '../components/FinishRide';
 
 export default function CaptainRiding() {
 
@@ -25,10 +26,12 @@ export default function CaptainRiding() {
         <div className='h-screen relative flex flex-col justify-end'>
 
             <div className='fixed !p-6 top-0 flex items-center justify-between w-screen'>
+
                 <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
                 <Link to='/captain-home' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
                     <i className="text-lg font-medium ri-logout-box-r-line"></i>
                 </Link>
+                
             </div>
 
             <div className='h-1/5 !p-6 flex items-center justify-between relative bg-yellow-400 !pt-10'
@@ -46,7 +49,7 @@ export default function CaptainRiding() {
             </div>
 
             <div ref={finishRidePanelRef} className='fixed w-full z-[500] bottom-0 translate-y-full bg-white !px-3 pt-12'>
-                {}
+                {<FinishRide setFinishRidePanel={setFinishRidePanel} />}
             </div>
 
             <div className='h-screen fixed w-screen top-0 z-[-1]'>
