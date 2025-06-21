@@ -25,3 +25,44 @@ module.exports.getAddressCoordinate = async (address) => {
         throw error;
     }
 }
+
+module.exports.getDistanceTime = async (origin, destination) => {
+    if (!origin || !destination) {
+        throw new Error('Origin and destination are required');
+    }
+    
+    const accessToken = process.env.MAPBOX_API_KEY;
+    
+    try {
+        // First, geocode the origin and destination to get coordinates
+        const originCoords = await module.exports.getAddressCoordinate(origin);
+        const destCoords = await module.exports.getAddressCoordinate(destination);
+        
+        // Use Mapbox Directions API for distance and duration
+        const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${originCoords.lng},${originCoords.ltd};${destCoords.lng},${destCoords.ltd}?access_token=${accessToken}`;
+        
+        const response = await axios.get(url);
+        
+        if (response.data.routes && response.data.routes.length > 0) {
+            const route = response.data.routes[0];
+            
+            return {
+                distance: {
+                    text: `${(route.distance / 1000).toFixed(1)} km`,
+                    value: Math.round(route.distance) // distance in meters
+                },
+                duration: {
+                    text: `${Math.round(route.duration / 60)} mins`,
+                    value: Math.round(route.duration) // duration in seconds
+                },
+                status: 'OK'
+            };
+        } else {
+            throw new Error('No routes found');
+        }
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
