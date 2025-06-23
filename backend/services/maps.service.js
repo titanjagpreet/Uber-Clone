@@ -66,3 +66,26 @@ module.exports.getDistanceTime = async (origin, destination) => {
         throw error;
     }
 }
+
+module.exports.getAutoCompleteSuggestions = async (input) => {
+    if (!input) {
+        throw new Error('query is required');
+    }
+    
+    const accessToken = process.env.MAPBOX_API_KEY;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(input)}.json?access_token=${accessToken}&autocomplete=true&limit=5`;
+    
+    try {
+        const response = await axios.get(url);
+        if (response.data.features && response.data.features.length > 0) {
+            return response.data.features
+                .map(feature => feature.place_name)
+                .filter(value => value);
+        } else {
+            throw new Error('Unable to fetch suggestions');
+        }
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
