@@ -46,3 +46,31 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
+module.exports.createRide = async ({
+    user, pickup, destination, vehicleType
+}) => {
+    if (!user || !pickup || !destination || !vehicleType) {
+        throw new Error('All fields are required');
+    }
+
+    const validVehicleTypes = ['auto', 'car', 'moto'];
+    if (!validVehicleTypes.includes(vehicleType)) {
+        throw new Error('Invalid vehicle type');
+    }
+    
+    const fare = await getFare(pickup, destination);
+    const distanceTime = await mapService.getDistanceTime(pickup, destination);
+    
+    const ride = await rideModel.create({
+        user,
+        pickup,
+        destination,
+        otp: getOtp(6),
+        fare: fare[vehicleType],
+        duration: Math.round(distanceTime.duration.value),
+        distance: Math.round(distanceTime.distance.value),
+        status: 'pending'
+    });
+    
+    return ride;
+}
