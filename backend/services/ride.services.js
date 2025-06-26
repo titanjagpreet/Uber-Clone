@@ -74,3 +74,38 @@ module.exports.createRide = async ({
     
     return ride;
 }
+
+module.exports.confirmRide = async ({
+    rideId, captain
+}) => {
+    if (!rideId) {
+        throw new Error('Ride id is required');
+    }
+    
+    if (!captain || !captain._id) {
+        throw new Error('Captain is required');
+    }
+    
+    // Check if ride exists and is in pending status
+    const existingRide = await rideModel.findById(rideId);
+    if (!existingRide) {
+        throw new Error('Ride not found');
+    }
+    
+    if (existingRide.status !== 'pending') {
+        throw new Error('Ride is not available for confirmation');
+    }
+    
+    await rideModel.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'accepted',
+        captain: captain._id
+    });
+    
+    const ride = await rideModel.findOne({
+        _id: rideId
+    }).populate('user').populate('captain').select('+otp');
+    
+    return ride;
+}
