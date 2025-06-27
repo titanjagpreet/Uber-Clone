@@ -148,3 +148,38 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
     
     return updatedRide;
 }
+
+module.exports.endRide = async ({ rideId, captain }) => {
+    if (!rideId) {
+        throw new Error('Ride id is required');
+    }
+    
+    if (!captain || !captain._id) {
+        throw new Error('Captain is required');
+    }
+    
+    const ride = await rideModel.findOne({
+        _id: rideId,
+        captain: captain._id
+    }).populate('user').populate('captain').select('+otp');
+    
+    if (!ride) {
+        throw new Error('Ride not found or you are not authorized to end this ride');
+    }
+    
+    if (ride.status !== 'ongoing') {
+        throw new Error('Ride not ongoing');
+    }
+    
+    await rideModel.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'completed'
+    });
+    
+    const updatedRide = await rideModel.findOne({
+        _id: rideId
+    }).populate('user').populate('captain').select('+otp');
+    
+    return updatedRide;
+}
