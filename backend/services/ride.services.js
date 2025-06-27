@@ -183,3 +183,38 @@ module.exports.endRide = async ({ rideId, captain }) => {
     
     return updatedRide;
 }
+
+module.exports.cancelRide = async ({ rideId, userId }) => {
+    if (!rideId) {
+        throw new Error('Ride id is required');
+    }
+    
+    if (!userId) {
+        throw new Error('User id is required');
+    }
+    
+    const ride = await rideModel.findOne({
+        _id: rideId,
+        user: userId
+    });
+    
+    if (!ride) {
+        throw new Error('Ride not found or you are not authorized to cancel this ride');
+    }
+    
+    if (ride.status === 'completed') {
+        throw new Error('Cannot cancel completed ride');
+    }
+    
+    await rideModel.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'cancelled'
+    });
+    
+    const updatedRide = await rideModel.findOne({
+        _id: rideId
+    }).populate('user').populate('captain').select('+otp');
+    
+    return updatedRide;
+}
